@@ -31,6 +31,17 @@ public:
         glPopMatrix();
     }
 
+    void drawComet()
+	{
+		glPushMatrix();
+			glColor3f(1.000, 1.000, 1.000);
+			glPointSize(2.0);
+			glBegin(GL_POINTS);
+				glVertex3f(0.0, 0.0, 0.0);
+			glEnd();
+		glPopMatrix();
+	}
+
     void BallUpdate()
     {
         _angle += 2.0f;
