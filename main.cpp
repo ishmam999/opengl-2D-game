@@ -27,7 +27,7 @@ float _ang_tri = 0.0;
 float posx = 0;
 float posy =-2.20;
 float dposx1=-2.0,dposx2=0,dposx3=1.5;
-float dposy1=2.9,dposy2=4,dposy3=5.5;//= 2.9;
+float dposy1=2.9,dposy2=8,dposy3=5.5;//= 2.9;
 
 float cposx1 = -2, cposx2 = 2, cposx3 = 0; //added this
 float cposy1 = 4, cposy2 = 2, cposy3 = 0;  //added this
@@ -35,7 +35,7 @@ float cposy1 = 4, cposy2 = 2, cposy3 = 0;  //added this
 float z = 5, y=2.5;
 
 float dLifeposx1=0.0;
-float dLifeposy1=5.0;
+float dLifeposy1=50.0;
 bool playgame=false;
 bool gameover = false;
 bool gamemenu = true;
@@ -308,6 +308,7 @@ if(playgame){
             if(life<=0){
                     playgame = false;
                     gameover = true;
+                    PlaySound("dead.wav", NULL, SND_ASYNC|SND_FILENAME);
             }
         }
         if((dposx2>=negPosx && dposx2<= posPosx )&& (dposy2<=-2.2 && dposy2>-2.23) ){
@@ -321,10 +322,11 @@ if(playgame){
         else if(dposy2<=-2.2 && dposy2>-2.23)
         {
                 //cout<<"one life gone :D dpos 2 "<<endl;
-                life--;
+                life-=2;
                 if(life<=0){
                     playgame = false;
                     gameover = true;
+                    PlaySound("dead.wav", NULL, SND_ASYNC|SND_FILENAME);
                 }
         }
         if((dposx3>=negPosx && dposx3<= posPosx )&& (dposy3<=-2.2 && dposy3>-2.23) ){
@@ -350,7 +352,7 @@ if(playgame){
         if((dLifeposx1>=negPosx && dLifeposx1<= posPosx )&& (dLifeposy1<=-2.2 && dLifeposy1>-2.23) ){
                 //cout<<"COLLISSION DETECTED :D dpos 3"<<endl;
                 score++;
-                life+=5;
+                life+=3;
                 genLifeX1Y1();
                 PlaySound("sound.wav", NULL, SND_ASYNC|SND_FILENAME);
         }
@@ -425,6 +427,7 @@ void mouseClick(int button, int state, int x, int y)
             gamemenu = false;
             playgame= true;
         }
+
     }
 }
 
