@@ -13,11 +13,13 @@
 #include "menu.h"
 #include "gameOver.h"
 #include "PauseScreen.h"
+#include "square.h"
+#include "star.h"
 
 
 using  namespace std;
 static int score;
-static int life= 5;
+static int life= 7;
 float _angle = 0.0;
 float px = 7.0;
 //float _cameraAngle = 0.0;
@@ -33,7 +35,7 @@ float cposy1 = 4, cposy2 = 2, cposy3 = 0;  //added this
 float z = 5, y=2.5;
 
 float dLifeposx1=0.0;
-float dLifeposy1=50.0;
+float dLifeposy1=5.0;
 bool playgame=false;
 bool gameover = false;
 bool gamemenu = true;
@@ -46,6 +48,9 @@ NightSky nightSky;
 Menu menu;
 GameOverScreen gameOverScreen;
 PauseScreen pauseScreen;
+Square square;
+Star star;
+
 
 void displayRasterText(float x ,float y ,float z ,char *stringToDisplay) {
 	int length;
@@ -107,7 +112,7 @@ void genX3Y3()
 void genLifeX1Y1()
 {
     dLifeposx1 = RandomFloat(-1.2,2.2);
-    dLifeposy1 = RandomFloat(50.0,60.0);
+    dLifeposy1 = RandomFloat(5.0,6.0);
 }
 //Initializes 3D rendering
 void initRendering() {
@@ -121,7 +126,7 @@ void handleResize(int w, int h) {
 }
 //Draws the 3D scene
 void drawScene() {
-	glClearColor(0.000, 0.000, 0.1, 1.0); //added this
+	glClearColor(0.0, 0.0, 0.1, 1.0); //added this
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	glMatrixMode(GL_MODELVIEW); //Switch to the drawing perspective
@@ -180,7 +185,7 @@ void drawScene() {
             glPopMatrix();
 
             //red ring
-            glColor3f(1,0,0);
+            glColor3f(0,1,0);
             glPushMatrix(); //Save the current state of transformations
             glTranslatef(posx, posy, 0.0);
             glRotatef(55, 1.0, 0.0, 0.0);
@@ -196,7 +201,7 @@ void drawScene() {
             //glColor3f(1.0,1,0);
             glPushMatrix(); //Save the current state of transformations
             glTranslatef(dposx2, dposy2, 0.0);
-                ball.drawBall();
+                star.drawStar();
             glPopMatrix();
 
             //glColor3f(1.0,1,0);
@@ -208,8 +213,10 @@ void drawScene() {
 
             glPushMatrix(); //Save the current state of transformations
             glTranslatef(dLifeposx1, dLifeposy1, 0.0);
-                ball.drawBall();
-            glColor3f(1,0,0);
+                //ball.drawBall();
+                square.drawSquare();
+
+            glColor3f(1,1,1);
             glutWireTorus(.01,.16,30,20);
             glPopMatrix();
 
@@ -306,6 +313,7 @@ if(playgame){
         if((dposx2>=negPosx && dposx2<= posPosx )&& (dposy2<=-2.2 && dposy2>-2.23) ){
                 //cout<<"COLLISSION DETECTED :D dpos2"<<endl;
                 score++;
+                life++;
                 genX2Y2();
                 PlaySound("sound.wav", NULL, SND_ASYNC|SND_FILENAME);
 
@@ -402,7 +410,7 @@ if(playgame){
         if(z>=0.15)
             z-=0.05;
 
-    //ball.BallUpdate();
+    ball.BallUpdate();
 	glutPostRedisplay();
 	glutTimerFunc(13, update, 0);
 }
